@@ -35,7 +35,7 @@ inputs:
     type: boolean
 
   - name: init_script_echo
-    default: "hello world"
+    default: "hello____world"
     description: this would be consumed by init script
     required: false
 
