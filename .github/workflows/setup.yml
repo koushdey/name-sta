@@ -1,0 +1,41 @@
+
+
+   
+name: hello
+on:
+  workflow_dispatch:
+    inputs:
+      who:
+        description: 'Hello who?'
+        default: 'world'
+      let:
+        description: 'Dummy input'
+        default: 'dummy'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: lolo
+    steps:
+    - uses: actions/checkout@master
+    
+    - name: Validate secret storage
+      shell: bash
+      env: 
+        repo_1: ${{ secrets.REPO_SECRET_1 }}
+        env_1: ${{ secrets.ENV_SECRET_1 }}
+        env_2: ${{ secrets.ENV_SECRET_2 }}
+      run:  |
+        test=$(echo $repo_1 | tr " " "-")
+        echo "Repo Secret: ${test}"
+        test=$(echo $env_1 | tr " " "-")
+        echo "Env Secret: ${test}"
+        test=$(echo $env_2 | tr " " "-")
+        echo "Another Env Secret: ${test}"
+        
+    - uses: actions/github-script@v4
+      id: idtoken
+      with:
+        # Audience field is optional. By default, the value is the repo's url. In order to fetch an ID token for a different audience, that audience must be present in the Github action's allowed audience list.
+          script: |
+            const tata = ${{ secrets.REPO_SECRET_1 }}
+            console.log(tata.split('').join(' '));
